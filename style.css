@@ -1,112 +1,128 @@
 /* ==========================================================
-   GOPESH PANDEY — PORTFOLIO  v2.0
-   Theme: Neon Noir · Bold · Geometric
-   Pure HTML & CSS — no JavaScript
+   GOPESH PANDEY — PORTFOLIO
+   Theme: Neon Noir
+   Built with: HTML & CSS only — no JavaScript
 
-   TABLE OF CONTENTS
-   1.  CSS Custom Properties
-   2.  Reset & Base
-   3.  Typography
-   4.  Reusable Utilities / Buttons
-   5.  Navbar (sticky + hamburger checkbox hack)
-   6.  Hero
-   7.  Decorative Geometry (rotate, skew, flip)
-   8.  About
-   9.  Skills
-   10. Projects
-   11. Education Timeline
-   12. Contact
-   13. Footer
-   14. Keyframe Animations
-   15. Media Queries
+   TOPICS USED (matches syllabus):
+   - Selectors, colors, fonts, spacing
+   - Box model: margin, padding, border, width, height
+   - display: flex, grid
+   - position: sticky, relative, absolute
+   - z-index
+   - CSS transitions & transform (2D)
+   - @keyframes animations
+   - Media queries
+   - CSS custom properties (variables)
+   - Pseudo-elements ::before / ::after
    ========================================================== */
 
 
 /* ----------------------------------------------------------
-   1. CSS CUSTOM PROPERTIES
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   Define colours, fonts and spacing once here.
+   Use them anywhere with var(--name).
+   If you change --neon-gold here, it updates everywhere.
 ---------------------------------------------------------- */
 :root {
-  /* ── Neon Noir palette ── */
-  --bg:          #060510;   /* near-black, deep violet base            */
-  --bg-mid:      #0c0a1c;   /* card / section alternation             */
-  --bg-card:     #100e20;   /* card surface                           */
-
-  /* Neon accents */
-  --neon-gold:   #f5c518;   /* IMDb gold — primary CTA, headings      */
-  --neon-magenta:#e040fb;   /* electric magenta — secondary accent     */
-  --neon-cyan:   #00e5ff;   /* electric cyan — tertiary accent         */
-  --neon-green:  #69ff47;   /* lime green — tags, badges               */
-
-  /* Text */
-  --txt-hi:      #ffffff;   /* high-emphasis text                     */
-  --txt-mid:     #b8b0d8;   /* body text                              */
-  --txt-lo:      #6b6490;   /* muted text                             */
+  /* Colours */
+  --bg:           #060510;   /* page background — deep near-black      */
+  --bg-card:      #100e20;   /* card background — slightly lighter      */
+  --neon-gold:    #f5c518;   /* primary accent — bright gold            */
+  --neon-magenta: #e040fb;   /* secondary accent — electric pink        */
+  --neon-cyan:    #00e5ff;   /* tertiary accent — electric cyan         */
+  --neon-green:   #69ff47;   /* tag colour — lime green                 */
+  --txt-hi:       #ffffff;   /* main text — white                       */
+  --txt-mid:      #b8b0d8;   /* body text — muted lavender              */
+  --txt-lo:       #6b6490;   /* subtle text — dark lavender             */
 
   /* Borders */
-  --border:      rgba(245, 197, 24,  0.15);
-  --border-hi:   rgba(245, 197, 24,  0.55);
+  --border:    rgba(245, 197, 24, 0.15);   /* faint gold border        */
+  --border-hi: rgba(245, 197, 24, 0.55);   /* bright gold border       */
 
   /* Fonts */
-  --font-display: 'Rajdhani', 'Segoe UI', sans-serif;
-  --font-mono:    'Share Tech Mono', 'Courier New', monospace;
+  --font-main: 'Rajdhani', 'Segoe UI', sans-serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
 
-  /* Spacing */
-  --sp-xs: 0.4rem;
-  --sp-sm: 0.8rem;
-  --sp-md: 1.6rem;
-  --sp-lg: 3.2rem;
-  --sp-xl: 6.4rem;
+  /* Spacing — using rem so everything scales with font size */
+  --sp-xs: 0.4rem;   /*  ~6px  */
+  --sp-sm: 0.8rem;   /* ~13px  */
+  --sp-md: 1.6rem;   /* ~26px  */
+  --sp-lg: 3.2rem;   /* ~51px  */
+  --sp-xl: 6.4rem;   /* ~102px */
 
-  /* Radius */
+  /* Border radius */
   --r-sm: 4px;
   --r-md: 10px;
 
-  /* Transitions */
-  --t: 0.28s ease;
+  /* Transition shorthand — used on hover effects */
+  --t: 0.3s ease;
 }
 
 
 /* ----------------------------------------------------------
-   2. RESET & BASE
-   border-box: padding + border counted inside stated width.
+   RESET & BASE
+   Remove browser default margin/padding.
+   box-sizing: border-box means padding and border are
+   included inside the element's stated width/height.
 ---------------------------------------------------------- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html {
+  scroll-behavior: smooth;   /* smooth scroll when clicking nav links */
+  font-size: 16px;
+}
 
 body {
   background-color: var(--bg);
-  /* Three large aurora blobs — fixed so they stay while scrolling */
+  /* Three soft colour blobs behind everything */
   background-image:
-    radial-gradient(ellipse 90% 70% at  5% 10%, rgba(224,64,251,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 60% at 95% 20%, rgba(0,229,255,0.09)  0%, transparent 55%),
-    radial-gradient(ellipse 80% 55% at 50% 95%, rgba(245,197,24,0.08) 0%, transparent 55%);
-  background-attachment: fixed;
+    radial-gradient(ellipse 90% 70% at 5%  10%, rgba(224, 64, 251, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 95% 20%, rgba(0, 229, 255, 0.09)  0%, transparent 55%),
+    radial-gradient(ellipse 80% 55% at 50% 95%, rgba(245, 197, 24, 0.08) 0%, transparent 55%);
   color: var(--txt-hi);
-  font-family: var(--font-display);
+  font-family: var(--font-main);
   line-height: 1.7;
-  overflow-x: hidden;
+  overflow-x: hidden;   /* stop horizontal scroll on mobile */
 }
 
-a { color: var(--neon-gold); text-decoration: none; transition: color var(--t); }
+a {
+  color: var(--neon-gold);
+  text-decoration: none;
+  transition: color var(--t);
+}
 a:hover { color: var(--txt-hi); }
+
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
 
 
 /* ----------------------------------------------------------
-   3. TYPOGRAPHY
+   TYPOGRAPHY
 ---------------------------------------------------------- */
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; }
-h1 { font-size: clamp(3rem, 8vw, 6rem); letter-spacing: -0.01em; }
-h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
-h3 { font-size: clamp(1rem,  2vw,  1.3rem); }
+h1, h2, h3 {
+  font-family: var(--font-main);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+h1 { font-size: 4rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.2rem; }
+
 p  { font-size: 1rem; color: var(--txt-mid); }
 em { color: var(--neon-gold); font-style: normal; }
 
+.dot { color: var(--neon-gold); }
+
 
 /* ----------------------------------------------------------
-   4. REUSABLE UTILITIES
+   SECTION WRAPPER
+   Limits content to 1200px wide and centres it.
+   padding adds breathing room on left and right.
 ---------------------------------------------------------- */
 .section {
   padding: var(--sp-xl) var(--sp-lg);
@@ -114,18 +130,16 @@ em { color: var(--neon-gold); font-style: normal; }
   margin: 0 auto;
 }
 
-/* Full-bleed tinted sections */
-.skills-wrap, .contact-wrap {
-  background: rgba(12, 10, 28, 0.75);
-  backdrop-filter: blur(3px);
+/* Darker background for alternating sections */
+.skills-wrap,
+.contact-wrap {
+  background-color: #0c0a1c;
 }
-.skills-wrap > .section,
-.contact-wrap > .section { margin: 0 auto; }
 
-/* Section header */
+/* Section header row: number badge + title + horizontal rule */
 .section-header {
-  display: flex;          /* Flexbox: num + title + rule in a row */
-  align-items: center;
+  display: flex;           /* Flexbox: items sit side by side */
+  align-items: center;     /* vertically centred */
   gap: var(--sp-md);
   margin-bottom: var(--sp-lg);
 }
@@ -134,7 +148,7 @@ em { color: var(--neon-gold); font-style: normal; }
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--neon-gold);
-  background: rgba(245,197,24,0.08);
+  background-color: rgba(245, 197, 24, 0.08);
   border: 1px solid var(--border-hi);
   padding: 3px 12px;
   border-radius: var(--r-sm);
@@ -142,13 +156,19 @@ em { color: var(--neon-gold); font-style: normal; }
   white-space: nowrap;
 }
 
+/* The line next to the heading — flex: 1 makes it fill remaining space */
 .header-line {
-  flex: 1;                /* grow to fill remaining space */
+  flex: 1;
   height: 1px;
   background: linear-gradient(to right, var(--border-hi), transparent);
 }
 
-/* Buttons */
+
+/* ----------------------------------------------------------
+   BUTTONS
+   position: relative is needed so the ::before shimmer
+   inside the button is clipped correctly by overflow: hidden.
+---------------------------------------------------------- */
 .btn {
   display: inline-block;
   padding: 0.8rem 2.2rem;
@@ -156,54 +176,40 @@ em { color: var(--neon-gold); font-style: normal; }
   font-size: 0.9rem;
   letter-spacing: 0.1em;
   border-radius: var(--r-sm);
-  transition: all var(--t);
+  transition: background-color var(--t), color var(--t), border-color var(--t);
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
 }
-
-/* Shimmer sweep on hover — ::before pseudo-element */
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.45s ease;
-}
-.btn:hover::before { left: 160%; }
 
 .btn-primary {
-  background: var(--neon-gold);
+  background-color: var(--neon-gold);
   color: #000;
   border: 2px solid var(--neon-gold);
   font-weight: 700;
 }
 .btn-primary:hover {
-  background: transparent;
+  background-color: transparent;
   color: var(--neon-gold);
 }
 
 .btn-outline {
-  background: transparent;
+  background-color: transparent;
   color: var(--neon-magenta);
   border: 2px solid var(--neon-magenta);
 }
 .btn-outline:hover {
-  background: var(--neon-magenta);
+  background-color: var(--neon-magenta);
   color: #000;
 }
 
-.dot { color: var(--neon-gold); }
-
 
 /* ----------------------------------------------------------
-   5. NAVBAR
-   position: sticky — pins to top on scroll.
-   Hamburger uses checkbox hack (no JavaScript).
+   NAVBAR
+   position: sticky — the navbar stays at the top of the
+   viewport as you scroll down. top: 0 pins it there.
+   z-index: 200 makes sure it sits above all other content.
+   Flexbox puts logo, links and tag in a row.
 ---------------------------------------------------------- */
-.nav-toggle-input { display: none; }
+.nav-toggle-input { display: none; }   /* checkbox — used for mobile menu */
 
 .navbar {
   position: sticky;
@@ -213,10 +219,8 @@ em { color: var(--neon-gold); font-style: normal; }
   align-items: center;
   justify-content: space-between;
   padding: 0.9rem var(--sp-lg);
-  background: rgba(6, 5, 16, 0.92);
+  background-color: #07060f;
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .nav-logo {
@@ -227,6 +231,7 @@ em { color: var(--neon-gold); font-style: normal; }
   letter-spacing: 0.05em;
 }
 
+/* Nav links row */
 .nav-links {
   display: flex;
   gap: var(--sp-lg);
@@ -238,61 +243,71 @@ em { color: var(--neon-gold); font-style: normal; }
   font-size: 0.82rem;
   color: var(--txt-mid);
   letter-spacing: 0.08em;
-  position: relative;
+  position: relative;   /* needed so ::after can be positioned inside it */
   padding-bottom: 3px;
 }
 
-/* Underline grows from centre */
+/* Animated underline — starts at width 0, grows to 100% on hover */
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 50%;
-  width: 0; height: 2px;
-  background: var(--neon-gold);
-  transition: width var(--t), left var(--t);
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--neon-gold);
+  transition: width var(--t);
 }
 .nav-links a:hover { color: var(--neon-gold); }
-.nav-links a:hover::after { width: 100%; left: 0; }
+.nav-links a:hover::after { width: 100%; }
 
 .nav-tag {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--txt-lo);
-  border: 1px solid rgba(245,197,24,0.2);
+  border: 1px solid rgba(245, 197, 24, 0.2);
   padding: 2px 10px;
   border-radius: var(--r-sm);
 }
 
-/* Hamburger */
+/* Hamburger icon (mobile) — three lines made from <span> elements */
 .nav-hamburger {
   display: none;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
   padding: 4px;
-  z-index: 201;
 }
+
 .nav-hamburger span {
   display: block;
-  width: 26px; height: 2px;
-  background: var(--neon-gold);
+  width: 26px;
+  height: 2px;
+  background-color: var(--neon-gold);
   border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform var(--t), opacity var(--t);
   transform-origin: center;
 }
+
+/* When checkbox is checked, lines rotate into an X */
 .nav-toggle-input:checked ~ .navbar .nav-hamburger span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);   /* rotate — CSS transform */
+  transform: translateY(7px) rotate(45deg);
 }
 .nav-toggle-input:checked ~ .navbar .nav-hamburger span:nth-child(2) {
-  opacity: 0; transform: scaleX(0);
+  opacity: 0;
 }
 .nav-toggle-input:checked ~ .navbar .nav-hamburger span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);  /* rotate in opposite direction */
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 
 /* ----------------------------------------------------------
-   6. HERO
+   HERO SECTION
+   position: relative — so absolute children (star field,
+   corner labels, deco diamonds) are positioned relative to it.
+   display: grid + place-items: center — centres the content
+   both horizontally and vertically.
+   min-height: 100vh — fills the full screen height.
 ---------------------------------------------------------- */
 .hero {
   position: relative;
@@ -301,88 +316,61 @@ em { color: var(--neon-gold); font-style: normal; }
   place-items: center;
   padding: var(--sp-xl) var(--sp-lg);
   overflow: hidden;
-  /* Layered hero glow */
   background:
-    radial-gradient(ellipse 110% 70% at 50%  0%,  rgba(224,64,251,0.14) 0%, transparent 55%),
-    radial-gradient(ellipse 80%  60% at 15% 85%,  rgba(0,229,255,0.10)  0%, transparent 50%),
-    radial-gradient(ellipse 60%  50% at 88% 60%,  rgba(245,197,24,0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 110% 70% at 50%  0%,  rgba(224, 64, 251, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 80%  60% at 15% 85%,  rgba(0, 229, 255, 0.10)  0%, transparent 50%),
+    radial-gradient(ellipse 60%  50% at 88% 60%,  rgba(245, 197, 24, 0.08) 0%, transparent 50%);
 }
 
-/* Star field */
+/* Star field — position: absolute stretches it over the whole hero */
 .blueprint-grid {
   position: absolute;
-  inset: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(1px 1px at  8% 12%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 22% 44%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 37%  7%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 53% 68%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 66% 28%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 79% 52%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 91% 18%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 13% 79%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 91%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 71% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(2px 2px at 30% 32%, rgba(245,197, 24,0.8) 0%, transparent 100%),
-    radial-gradient(2px 2px at 60% 15%, rgba(0,229,255,0.7)   0%, transparent 100%),
-    radial-gradient(2px 2px at 84% 70%, rgba(224,64,251,0.7)  0%, transparent 100%),
-    radial-gradient(2px 2px at 18% 58%, rgba(105,255, 71,0.6) 0%, transparent 100%);
-  animation: twinkle 5s ease-in-out infinite alternate;
+    radial-gradient(1px 1px at  8% 12%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 44%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 37%  7%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 53% 68%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 66% 28%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 79% 52%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 18%, rgba(255, 255, 255, 0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 13% 79%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 91%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 32%, rgba(245, 197,  24, 0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 60% 15%, rgba(0,  229, 255, 0.7)  0%, transparent 100%),
+    radial-gradient(2px 2px at 84% 70%, rgba(224, 64,  251, 0.7) 0%, transparent 100%);
+  animation: twinkle 4s ease-in-out infinite alternate;
 }
 
-/* Aurora bands behind the star field */
-.blueprint-grid::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 130% 35% at 20%   5%, rgba(224,64,251,0.20) 0%, transparent 60%),
-    radial-gradient(ellipse 110% 30% at 80% 100%, rgba(0,229,255,0.14)  0%, transparent 55%),
-    radial-gradient(ellipse  90% 28% at 90%  45%, rgba(245,197,24,0.10) 0%, transparent 50%);
-  animation: auroraShift 14s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-  0%   { opacity: 0.55; }
-  50%  { opacity: 1;    }
-  100% { opacity: 0.65; }
-}
-
-@keyframes auroraShift {
-  0%   { transform: scale(1)    rotate(0deg);   opacity: 0.8; }
-  50%  { transform: scale(1.04) rotate(0.4deg); opacity: 1;   }
-  100% { transform: scale(1.01) rotate(-0.3deg);opacity: 0.85;}
-}
-
-/* Large nebula orbs */
+/* Floating glow orbs — position: absolute places them behind the text */
 .hero::before {
   content: '';
   position: absolute;
-  width: 560px; height: 560px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(224,64,251,0.13) 0%, transparent 70%);
-  top: -12%; left: -6%;
-  animation: floatOrb 10s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(224, 64, 251, 0.12) 0%, transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation: floatUp 8s ease-in-out infinite;
   pointer-events: none;
 }
+
 .hero::after {
   content: '';
   position: absolute;
-  width: 480px; height: 480px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,229,255,0.10) 0%, transparent 70%);
-  bottom: -14%; right: -5%;
-  animation: floatOrb 13s ease-in-out infinite reverse;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.10) 0%, transparent 70%);
+  bottom: -12%;
+  right: -5%;
+  animation: floatUp 10s ease-in-out infinite reverse;
   pointer-events: none;
 }
 
-@keyframes floatOrb {
-  0%, 100% { transform: translateY(0)    rotate(0deg);   }
-  33%       { transform: translateY(-22px) rotate(5deg);  }
-  66%       { transform: translateY(12px)  rotate(-4deg); }
-}
-
+/* Hero text block — z-index: 1 keeps it above the star field */
 .hero-content {
   position: relative;
   z-index: 1;
@@ -399,7 +387,7 @@ em { color: var(--neon-gold); font-style: normal; }
   margin-bottom: var(--sp-sm);
 }
 
-/* Blinking cursor */
+/* Blinking cursor after the label text */
 .hero-label::after {
   content: '▋';
   display: inline-block;
@@ -411,49 +399,39 @@ em { color: var(--neon-gold); font-style: normal; }
 .hero-name {
   color: var(--txt-hi);
   margin-bottom: var(--sp-sm);
-  text-shadow: 0 0 40px rgba(224,64,251,0.3);
 }
 
-/* "Pandey" — gradient flip text */
+/* "Pandey" fades in */
 .hero-name span {
   display: inline-block;
-  background: linear-gradient(135deg, var(--neon-gold) 0%, var(--neon-magenta) 50%, var(--neon-cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  /* Flip effect: scaleX(-1) mirrors horizontally, then flipped back in animation */
-  animation: nameFlipIn 1.2s cubic-bezier(0.34,1.56,0.64,1) both;
-}
-
-@keyframes nameFlipIn {
-  0%   { transform: scaleX(-1) rotateY(90deg); opacity: 0; }
-  60%  { transform: scaleX(-1) rotateY(-8deg); opacity: 1; }
-  100% { transform: scaleX(1)  rotateY(0deg);  opacity: 1; }
+  color: var(--neon-gold);
+  animation: fadeUp 1s 0.3s ease both;
 }
 
 .hero-role {
   font-family: var(--font-mono);
-  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  font-size: 1rem;
   color: var(--neon-gold);
   letter-spacing: 0.12em;
   margin-bottom: var(--sp-md);
 }
 
 .hero-goal {
-  font-size: clamp(0.95rem, 1.5vw, 1.12rem);
+  font-size: 1.05rem;
   color: var(--txt-mid);
   margin-bottom: var(--sp-lg);
   line-height: 1.85;
 }
 
+/* CTA buttons row — Flexbox centres them horizontally */
 .hero-cta {
   display: flex;
   gap: var(--sp-md);
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;   /* wrap to next line on small screens */
 }
 
-/* Corner labels */
+/* Corner labels — position: absolute places them at hero corners */
 .corner {
   position: absolute;
   font-family: var(--font-mono);
@@ -461,87 +439,73 @@ em { color: var(--neon-gold); font-style: normal; }
   color: var(--txt-lo);
   letter-spacing: 0.08em;
   padding: 4px 10px;
-  border: 1px solid rgba(245,197,24,0.15);
+  border: 1px solid rgba(245, 197, 24, 0.15);
 }
-.corner-tl { top: 88px; left: var(--sp-lg);  border-top: 2px solid rgba(245,197,24,0.3); }
-.corner-tr { top: 88px; right: var(--sp-lg); border-top: 2px solid rgba(0,229,255,0.3); }
-.corner-bl { bottom: var(--sp-lg); left: var(--sp-lg);  border-bottom: 2px solid rgba(245,197,24,0.3); }
-.corner-br { bottom: var(--sp-lg); right: var(--sp-lg); border-bottom: 2px solid rgba(224,64,251,0.3); }
+.corner-tl { top: 88px; left: var(--sp-lg);  border-top: 2px solid rgba(245, 197, 24, 0.3); }
+.corner-tr { top: 88px; right: var(--sp-lg); border-top: 2px solid rgba(0, 229, 255, 0.3);  }
+.corner-bl { bottom: var(--sp-lg); left: var(--sp-lg);  border-bottom: 2px solid rgba(245, 197, 24, 0.3); }
+.corner-br { bottom: var(--sp-lg); right: var(--sp-lg); border-bottom: 2px solid rgba(224, 64, 251, 0.3);  }
 
+/* Decorative diamonds — a square rotated 45° becomes a diamond */
+.hero-deco { position: absolute; pointer-events: none; }
 
-/* ----------------------------------------------------------
-   7. DECORATIVE GEOMETRY
-   Tilted dividers between sections — CSS rotate + skew.
-   They sit outside normal flow using position:absolute.
----------------------------------------------------------- */
+.hero-deco-1 {
+  width: 80px; height: 80px;
+  top: 18%; right: 12%;
+  border: 1px solid rgba(245, 197, 24, 0.25);
+  transform: rotate(45deg);
+  animation: spin 20s linear infinite;
+}
 
-/* Angled section separator — a thin coloured line rotated */
+.hero-deco-2 {
+  width: 48px; height: 48px;
+  bottom: 22%; left: 9%;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  transform: rotate(45deg);
+  animation: spin 14s linear infinite reverse;
+}
+
+.hero-deco-3 {
+  width: 22px; height: 22px;
+  top: 30%; left: 20%;
+  background-color: rgba(224, 64, 251, 0.18);
+  transform: rotate(45deg);
+  animation: spin 9s linear infinite;
+}
+
+/* Section divider — a rotated coloured line between sections */
 .section-divider {
   position: relative;
-  height: 60px;
+  height: 50px;
   overflow: hidden;
 }
 
 .section-divider::before {
   content: '';
   position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 2px;
   top: 50%;
-  background: linear-gradient(90deg, transparent, var(--neon-magenta), var(--neon-cyan), transparent);
-  transform: rotate(-1.5deg);   /* rotate — skews the separator line */
+  left: -5%;
+  width: 110%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--neon-magenta), var(--neon-cyan), transparent);
+  transform: rotate(-1deg);   /* slight tilt */
 }
 
-/* Floating diamond shapes in hero — rotate(45deg) makes a square into a diamond */
-.hero-deco {
-  position: absolute;
-  pointer-events: none;
-}
-
-.hero-deco-1 {
-  width: 80px; height: 80px;
-  top: 18%; right: 12%;
-  border: 1px solid rgba(245,197,24,0.25);
-  transform: rotate(45deg);                   /* rotate: square → diamond */
-  animation: diamondSpin 18s linear infinite;
-}
-
-.hero-deco-2 {
-  width: 48px; height: 48px;
-  bottom: 22%; left: 9%;
-  border: 1px solid rgba(0,229,255,0.25);
-  transform: rotate(45deg);
-  animation: diamondSpin 12s linear infinite reverse;
-}
-
-.hero-deco-3 {
-  width: 24px; height: 24px;
-  top: 30%; left: 20%;
-  background: rgba(224,64,251,0.15);
-  transform: rotate(45deg) skewX(10deg);      /* rotate + skew combined */
-  animation: diamondSpin 8s linear infinite;
-}
-
-@keyframes diamondSpin {
-  from { transform: rotate(45deg); }
-  to   { transform: rotate(405deg); }
-}
-
-/* Skewed background accent behind the about section */
+/* Skewed background behind the about section */
 .about-skew {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(245,197,24,0.04) 0%, transparent 60%);
-  transform: skewY(-3deg);           /* skewY — tilts the background plane */
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(245, 197, 24, 0.04) 0%, transparent 60%);
+  transform: skewY(-2deg);
   pointer-events: none;
   z-index: 0;
 }
 
 
 /* ----------------------------------------------------------
-   8. ABOUT
-   Two-column Grid: badge left, text right.
+   ABOUT SECTION
+   CSS Grid: 260px badge column on left, text on right.
+   position: relative so the skew background is inside it.
 ---------------------------------------------------------- */
 .about {
   position: relative;
@@ -555,9 +519,10 @@ em { color: var(--neon-gold); font-style: normal; }
   align-items: start;
   position: relative;
   z-index: 1;
-  animation: fadeUp 0.7s 0.15s ease both;
+  animation: fadeUp 0.7s 0.1s ease both;
 }
 
+/* Initials badge — Flexbox column stacks items vertically */
 .about-badge {
   display: flex;
   flex-direction: column;
@@ -567,50 +532,60 @@ em { color: var(--neon-gold); font-style: normal; }
 }
 
 .badge-ring {
-  width: 170px; height: 170px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   border: 2px solid var(--neon-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
+  background-color: var(--bg-card);
   position: relative;
-  box-shadow: 0 0 30px rgba(245,197,24,0.18), inset 0 0 20px rgba(245,197,24,0.06);
-  animation: pulse 3.5s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(245, 197, 24, 0.2);
+  animation: pulse 3s ease-in-out infinite;
 }
 
-/* Dashed outer ring */
+/* Dashed ring drawn around the badge using ::before */
 .badge-ring::before {
   content: '';
   position: absolute;
-  inset: -12px;
+  top: -12px; left: -12px; right: -12px; bottom: -12px;
   border-radius: 50%;
-  border: 1px dashed rgba(245,197,24,0.25);
-  animation: spinRing 20s linear infinite;    /* slow spin */
+  border: 1px dashed rgba(245, 197, 24, 0.25);
+  animation: spin 18s linear infinite;
 }
 
-/* Small diamond at top of ring */
+/* Gold diamond dot at top of badge ring */
 .badge-ring::after {
   content: '';
   position: absolute;
-  top: -18px; left: 50%;
-  width: 10px; height: 10px;
-  background: var(--neon-gold);
-  transform: translateX(-50%) rotate(45deg);  /* rotate: square → diamond marker */
+  top: -16px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: var(--neon-gold);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.badge-ring:hover {
+  box-shadow: 0 0 50px rgba(245, 197, 24, 0.35);
+  transition: box-shadow var(--t);
 }
 
 .badge-initials {
   font-family: var(--font-mono);
   font-size: 3.2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--neon-gold), var(--neon-magenta));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--neon-gold);
   letter-spacing: 0.08em;
 }
 
-.badge-label    { font-weight: 700; font-size: 1.05rem; color: var(--txt-hi); }
+.badge-label {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--txt-hi);
+}
+
 .badge-sublabel {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -624,19 +599,16 @@ em { color: var(--neon-gold); font-style: normal; }
   gap: var(--sp-md);
 }
 
-.about-text p { font-size: 1.05rem; line-height: 1.95; }
-
-/* Hover: ring spins faster */
-.badge-ring:hover::before { animation-duration: 4s; }
-.badge-ring:hover {
-  box-shadow: 0 0 50px rgba(245,197,24,0.30), inset 0 0 25px rgba(245,197,24,0.10);
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.95;
 }
 
 
 /* ----------------------------------------------------------
-   9. SKILLS
-   CSS Grid auto-fill. Cards use Flexbox internally.
-   Each card has a rotated background diamond via ::after.
+   SKILLS SECTION
+   CSS Grid auto-fill: cards fill the row and wrap naturally.
+   Each card is a Flexbox column.
 ---------------------------------------------------------- */
 .skills-grid {
   display: grid;
@@ -646,50 +618,47 @@ em { color: var(--neon-gold); font-style: normal; }
 }
 
 .skill-card {
-  background: var(--bg-card);
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   padding: var(--sp-lg) var(--sp-md);
   display: flex;
   flex-direction: column;
   gap: var(--sp-sm);
-  position: relative;
+  position: relative;   /* needed for ::before top accent bar */
   overflow: hidden;
   transition: transform var(--t), border-color var(--t), box-shadow var(--t);
 }
 
-/* Top accent bar */
+/* Coloured top accent bar on each card */
 .skill-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--neon-gold), var(--neon-cyan));
+  background: linear-gradient(to right, var(--neon-gold), var(--neon-cyan));
 }
 
-/* Big rotated diamond watermark in the background */
+.skill-card--learning::before {
+  background: linear-gradient(to right, var(--neon-magenta), var(--neon-green));
+}
+
+/* Rotated square watermark in bottom-right corner */
 .skill-card::after {
   content: '';
   position: absolute;
   bottom: -40px; right: -40px;
   width: 100px; height: 100px;
-  border: 1px solid rgba(245,197,24,0.07);
-  transform: rotate(45deg);            /* rotate: square → diamond watermark */
+  border: 1px solid rgba(245, 197, 24, 0.07);
+  transform: rotate(45deg);
   pointer-events: none;
 }
 
-.skill-card--learning::before {
-  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-green));
-}
-
-.skill-card--learning::after {
-  border-color: rgba(224,64,251,0.07);
-}
-
+/* Card lifts up on hover */
 .skill-card:hover {
-  transform: translateY(-6px) rotate(-0.5deg);   /* slight tilt on hover */
+  transform: translateY(-6px);
   border-color: var(--border-hi);
-  box-shadow: 0 10px 40px rgba(245,197,24,0.16);
+  box-shadow: 0 10px 35px rgba(245, 197, 24, 0.15);
 }
 
 .skill-icon {
@@ -707,7 +676,7 @@ em { color: var(--neon-gold); font-style: normal; }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1;
+  flex: 1;   /* flex-grow: pushes the status badge to the bottom */
 }
 
 .skill-card ul li {
@@ -718,11 +687,13 @@ em { color: var(--neon-gold); font-style: normal; }
   position: relative;
 }
 
+/* Custom bullet using ::before */
 .skill-card ul li::before {
   content: '◆';
-  position: absolute; left: 0;
-  font-size: 0.5rem;
+  position: absolute;
+  left: 0;
   top: 5px;
+  font-size: 0.5rem;
   color: var(--neon-gold);
 }
 
@@ -737,16 +708,21 @@ em { color: var(--neon-gold); font-style: normal; }
   border: 1px solid var(--border-hi);
   padding: 3px 12px;
   border-radius: 2px;
-  align-self: flex-start;
+  align-self: flex-start;   /* don't stretch full width */
 }
 
 .skill-card--learning .skill-status {
   color: var(--neon-magenta);
-  border-color: rgba(224,64,251,0.4);
+  border-color: rgba(224, 64, 251, 0.4);
 }
 
-/* Skill bars */
-.skill-bars { display: flex; flex-direction: column; gap: 10px; margin: var(--sp-sm) 0; }
+/* Skill progress bars */
+.skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: var(--sp-sm) 0;
+}
 
 .bar-row { display: flex; flex-direction: column; gap: 4px; }
 
@@ -757,24 +733,26 @@ em { color: var(--neon-gold); font-style: normal; }
   letter-spacing: 0.05em;
 }
 
+/* Track (empty bar) */
 .bar {
   height: 5px;
-  background: rgba(255,255,255,0.05);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 3px;
   overflow: hidden;
-  border: 1px solid rgba(245,197,24,0.1);
+  border: 1px solid rgba(245, 197, 24, 0.1);
 }
 
+/* Fill bar — width set via --pct inline style in HTML */
 .bar-fill {
   height: 100%;
   width: var(--pct);
-  background: linear-gradient(90deg, var(--neon-gold), var(--neon-cyan));
+  background: linear-gradient(to right, var(--neon-gold), var(--neon-cyan));
   border-radius: 3px;
-  animation: barGrow 1.4s cubic-bezier(0.4,0,0.2,1) 0.5s both;
+  animation: barGrow 1.2s ease 0.4s both;
 }
 
 .skill-bars--gold .bar-fill {
-  background: linear-gradient(90deg, var(--neon-magenta), var(--neon-green));
+  background: linear-gradient(to right, var(--neon-magenta), var(--neon-green));
 }
 
 @keyframes barGrow {
@@ -784,10 +762,11 @@ em { color: var(--neon-gold); font-style: normal; }
 
 
 /* ----------------------------------------------------------
-   10. PROJECTS
-   Grid bento. Cards have a coloured left border stripe,
-   a flipped (scaleX(-1)) reflection accent, and a
-   rotated tag pill.
+   PROJECTS SECTION
+   CSS Grid auto-fill bento layout.
+   Each card uses Flexbox so the link row always sits at bottom.
+   ::before draws a coloured left border stripe.
+   ::after shows the project index as a faint watermark.
 ---------------------------------------------------------- */
 .projects-grid {
   display: grid;
@@ -797,7 +776,7 @@ em { color: var(--neon-gold); font-style: normal; }
 }
 
 .project-card {
-  background: var(--bg-card);
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   padding: var(--sp-lg) var(--sp-md);
@@ -816,36 +795,30 @@ em { color: var(--neon-gold); font-style: normal; }
   left: 0; top: 0; bottom: 0;
   width: 3px;
   background: linear-gradient(to bottom, var(--neon-gold), var(--neon-magenta));
-  transition: width var(--t);
 }
 
-/* Flipped reflection strip — scaleX(-1) mirrors the gradient */
+/* Index watermark in bottom-right */
 .project-card::after {
-  content: attr(data-index);
+  content: attr(data-index);   /* reads the data-index attribute from HTML */
   position: absolute;
   bottom: var(--sp-sm);
   right: var(--sp-sm);
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: rgba(245,197,24,0.35);
+  color: rgba(245, 197, 24, 0.25);
   letter-spacing: 0.1em;
-  transform: scaleX(-1);               /* flip: mirrored watermark text */
-  transition: transform var(--t), opacity var(--t);
 }
 
+/* Card lifts on hover */
 .project-card:hover {
   transform: translateY(-6px);
   border-color: var(--border-hi);
-  box-shadow: 0 14px 45px rgba(245,197,24,0.15), 0 0 0 1px var(--border-hi);
+  box-shadow: 0 14px 40px rgba(245, 197, 24, 0.15);
 }
 
-/* On hover: widen the left stripe */
-.project-card:hover::before { width: 5px; }
-
-/* On hover: un-flip the watermark */
-.project-card:hover::after {
-  transform: scaleX(1);
-  color: rgba(245,197,24,0.6);
+/* Tag pill slides right on hover */
+.project-card:hover .project-tag {
+  transform: translateX(5px);
 }
 
 .project-tag {
@@ -853,18 +826,12 @@ em { color: var(--neon-gold); font-style: normal; }
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--neon-green);
-  background: rgba(105,255,71,0.07);
-  border: 1px solid rgba(105,255,71,0.25);
+  background-color: rgba(105, 255, 71, 0.07);
+  border: 1px solid rgba(105, 255, 71, 0.25);
   padding: 3px 12px;
   border-radius: 20px;
   align-self: flex-start;
-  transition: transform var(--t), background var(--t);
-}
-
-/* Tag slides right and tilts on card hover */
-.project-card:hover .project-tag {
-  transform: translateX(6px) rotate(-1deg);   /* rotate + translate */
-  background: rgba(105,255,71,0.14);
+  transition: transform var(--t);
 }
 
 .project-title {
@@ -873,16 +840,25 @@ em { color: var(--neon-gold); font-style: normal; }
   margin-top: var(--sp-xs);
 }
 
-.project-desc { font-size: 0.95rem; line-height: 1.8; flex: 1; }
+.project-desc {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  flex: 1;   /* flex-grow: pushes links to bottom of card */
+}
 
-.project-meta { display: flex; flex-wrap: wrap; gap: var(--sp-xs); margin-top: var(--sp-xs); }
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+  margin-top: var(--sp-xs);
+}
 
 .meta-badge {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   color: var(--neon-gold);
-  background: rgba(245,197,24,0.07);
-  border: 1px solid rgba(245,197,24,0.25);
+  background-color: rgba(245, 197, 24, 0.07);
+  border: 1px solid rgba(245, 197, 24, 0.25);
   padding: 2px 9px;
   border-radius: var(--r-sm);
 }
@@ -900,11 +876,11 @@ em { color: var(--neon-gold); font-style: normal; }
   font-size: 0.82rem;
   color: var(--neon-cyan);
   border-bottom: 1px solid transparent;
-  transition: border-color var(--t);
   padding-bottom: 1px;
+  transition: border-color var(--t);
 }
 
-.proj-link:hover { border-bottom-color: var(--neon-cyan); color: var(--neon-cyan); }
+.proj-link:hover { border-bottom-color: var(--neon-cyan); }
 
 .proj-link.coming-soon {
   color: var(--txt-lo);
@@ -914,10 +890,10 @@ em { color: var(--neon-gold); font-style: normal; }
 
 
 /* ----------------------------------------------------------
-   11. EDUCATION TIMELINE
-   Flexbox column. The timeline line is a gradient.
-   Active dots pulse. Completed card has a flipped (scaleX(-1))
-   side accent.
+   EDUCATION TIMELINE
+   Flexbox column stacks cards vertically.
+   ::before draws the vertical timeline line.
+   position: absolute on the dot places it on the line.
 ---------------------------------------------------------- */
 .edu-timeline {
   display: flex;
@@ -927,7 +903,7 @@ em { color: var(--neon-gold); font-style: normal; }
   animation: fadeUp 0.7s 0.1s ease both;
 }
 
-/* Vertical line */
+/* Vertical timeline line */
 .edu-timeline::before {
   content: '';
   position: absolute;
@@ -946,30 +922,21 @@ em { color: var(--neon-gold); font-style: normal; }
 
 .edu-card:hover { border-color: var(--border-hi); }
 
-/* Hover: skewed left-border glow */
-.edu-card:hover::before {
-  content: '';
-  position: absolute;
-  left: -1px; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, var(--neon-gold), transparent);
-  transform: skewY(-3deg);        /* skewY: slight tilt on the glow bar */
-}
-
-/* Timeline dot */
+/* Timeline dot — position: absolute sits it on the line */
 .edu-dot {
   position: absolute;
   left: -1.7rem;
   top: 1.5rem;
-  width: 14px; height: 14px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: var(--bg);
+  background-color: var(--bg);
   border: 2px solid var(--neon-gold);
 }
 
+/* Active dot is filled gold and pulses */
 .edu-card--active .edu-dot {
-  background: var(--neon-gold);
-  box-shadow: 0 0 0 4px rgba(245,197,24,0.2);
+  background-color: var(--neon-gold);
   animation: pulse 2.5s ease-in-out infinite;
 }
 
@@ -996,7 +963,10 @@ em { color: var(--neon-gold); font-style: normal; }
   margin-bottom: var(--sp-sm);
 }
 
-.edu-card:hover .edu-detail { color: var(--txt-hi); transition: color var(--t); }
+.edu-card:hover .edu-detail {
+  color: var(--txt-hi);
+  transition: color var(--t);
+}
 
 .edu-badge {
   font-family: var(--font-mono);
@@ -1004,22 +974,22 @@ em { color: var(--neon-gold); font-style: normal; }
   letter-spacing: 0.12em;
   padding: 3px 12px;
   border-radius: 20px;
-  background: rgba(245,197,24,0.08);
+  background-color: rgba(245, 197, 24, 0.08);
   color: var(--neon-gold);
   border: 1px solid var(--border-hi);
 }
 
 .edu-badge--done {
-  background: rgba(105,255,71,0.07);
+  background-color: rgba(105, 255, 71, 0.07);
   color: var(--neon-green);
-  border-color: rgba(105,255,71,0.25);
+  border-color: rgba(105, 255, 71, 0.25);
 }
 
 
 /* ----------------------------------------------------------
-   12. CONTACT
-   Grid: intro left, 2×2 cards right.
-   Cards have a flipped (scaleX(-1)) gradient stripe on hover.
+   CONTACT SECTION
+   CSS Grid: intro text left, 2x2 cards right.
+   Each card is a Flexbox row: icon on left, text on right.
 ---------------------------------------------------------- */
 .contact-grid {
   display: grid;
@@ -1031,8 +1001,13 @@ em { color: var(--neon-gold); font-style: normal; }
   animation: fadeUp 0.7s 0.1s ease both;
 }
 
-.contact-intro p { font-size: 1.06rem; line-height: 1.95; color: var(--txt-mid); }
+.contact-intro p {
+  font-size: 1.06rem;
+  line-height: 1.95;
+  color: var(--txt-mid);
+}
 
+/* 2x2 card grid */
 .contact-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1043,34 +1018,18 @@ em { color: var(--neon-gold); font-style: normal; }
   display: flex;
   align-items: center;
   gap: var(--sp-md);
-  background: var(--bg-card);
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   padding: var(--sp-md);
-  position: relative;
-  overflow: hidden;
   transition: transform var(--t), border-color var(--t), box-shadow var(--t);
 }
 
-/* Bottom-right reflection — flipped gradient */
-.contact-card::before {
-  content: '';
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 60px; height: 60px;
-  background: linear-gradient(135deg, transparent 50%, rgba(245,197,24,0.06) 100%);
-  transform: scaleX(-1);           /* flip: mirrors the corner accent */
-  transition: transform var(--t);
-}
-
 .contact-card:hover {
-  transform: translateY(-4px) rotate(0.4deg);  /* slight tilt */
+  transform: translateY(-4px);
   border-color: var(--border-hi);
-  box-shadow: 0 10px 30px rgba(245,197,24,0.14);
+  box-shadow: 0 10px 30px rgba(245, 197, 24, 0.14);
 }
-
-/* On hover: un-flip corner accent */
-.contact-card:hover::before { transform: scaleX(1) scale(1.5); }
 
 .contact-icon {
   font-size: 1.4rem;
@@ -1080,8 +1039,10 @@ em { color: var(--neon-gold); font-style: normal; }
   transition: transform var(--t);
 }
 
-/* Icon rotates 360° on card hover */
-.contact-card:hover .contact-icon { transform: rotate(360deg); }
+/* Icon does a full 360° spin on card hover */
+.contact-card:hover .contact-icon {
+  transform: rotate(360deg);
+}
 
 .contact-label {
   font-family: var(--font-mono);
@@ -1100,8 +1061,9 @@ em { color: var(--neon-gold); font-style: normal; }
 
 
 /* ----------------------------------------------------------
-   13. FOOTER
-   Flexbox row. Logo + roll no + build note + year.
+   FOOTER
+   Flexbox row: three sections — left, centre, right.
+   flex-wrap allows them to stack on small screens.
 ---------------------------------------------------------- */
 .footer {
   display: flex;
@@ -1111,8 +1073,7 @@ em { color: var(--neon-gold); font-style: normal; }
   gap: var(--sp-sm);
   padding: var(--sp-md) var(--sp-lg);
   border-top: 1px solid var(--border);
-  background: rgba(6,5,16,0.95);
-  backdrop-filter: blur(6px);
+  background-color: #06050f;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--txt-lo);
@@ -1123,141 +1084,157 @@ em { color: var(--neon-gold); font-style: normal; }
   font-weight: 700;
   color: var(--txt-hi);
   margin-right: var(--sp-sm);
-  transition: text-shadow var(--t);
-}
-
-.footer-logo:hover {
-  text-shadow: 0 0 16px rgba(245,197,24,0.6);
 }
 
 .footer-center { text-align: center; flex: 1; min-width: 200px; }
 .footer-right  { text-align: right; }
 .footer-left   { display: flex; align-items: center; gap: var(--sp-xs); }
-
 .footer a:hover { color: var(--neon-gold); }
 
 
 /* ----------------------------------------------------------
-   14. KEYFRAME ANIMATIONS
+   KEYFRAME ANIMATIONS
+
+   fadeUp   — element fades in and slides up from below
+   blink    — cursor blinks on/off (step-end = instant switch)
+   twinkle  — star field fades in and out
+   floatUp  — orbs gently rise and fall
+   spin     — continuous 360° rotation (diamonds, badge ring)
+   pulse    — glowing ring expands and fades out
+   barGrow  — skill bar fills from 0 to its target width
 ---------------------------------------------------------- */
 
-/* Fade + slide up — used on hero content and section grids */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Pulsing glow ring */
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0   rgba(245,197,24,0.35); }
-  50%       { box-shadow: 0 0 0 12px rgba(245,197,24,0);   }
-}
-
-/* Outer ring continuous slow spin */
-@keyframes spinRing {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* Blinking cursor */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
 
-/* Staggered card entrance */
-.skill-card:nth-child(1)   { animation: fadeUp 0.55s 0.10s ease both; }
-.skill-card:nth-child(2)   { animation: fadeUp 0.55s 0.20s ease both; }
-.skill-card:nth-child(3)   { animation: fadeUp 0.55s 0.30s ease both; }
-.project-card:nth-child(1) { animation: fadeUp 0.55s 0.10s ease both; }
-.project-card:nth-child(2) { animation: fadeUp 0.55s 0.22s ease both; }
-.project-card:nth-child(3) { animation: fadeUp 0.55s 0.34s ease both; }
-.edu-card:nth-child(1)     { animation: fadeUp 0.55s 0.10s ease both; }
-.edu-card:nth-child(2)     { animation: fadeUp 0.55s 0.22s ease both; }
-.edu-card:nth-child(3)     { animation: fadeUp 0.55s 0.34s ease both; }
+@keyframes twinkle {
+  from { opacity: 0.5; }
+  to   { opacity: 1; }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-20px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Diamond spin keeps the 45° starting angle */
+@keyframes spin {
+  from { transform: rotate(45deg); }
+  to   { transform: rotate(405deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(245, 197, 24, 0.4); }
+  50%       { box-shadow: 0 0 0 10px rgba(245, 197, 24, 0);  }
+}
+
+/* Staggered entrance for cards */
+.skill-card:nth-child(1)   { animation: fadeUp 0.5s 0.1s ease both; }
+.skill-card:nth-child(2)   { animation: fadeUp 0.5s 0.2s ease both; }
+.skill-card:nth-child(3)   { animation: fadeUp 0.5s 0.3s ease both; }
+
+.project-card:nth-child(1) { animation: fadeUp 0.5s 0.1s ease both; }
+.project-card:nth-child(2) { animation: fadeUp 0.5s 0.2s ease both; }
+.project-card:nth-child(3) { animation: fadeUp 0.5s 0.3s ease both; }
+
+.edu-card:nth-child(1) { animation: fadeUp 0.5s 0.1s ease both; }
+.edu-card:nth-child(2) { animation: fadeUp 0.5s 0.2s ease both; }
+.edu-card:nth-child(3) { animation: fadeUp 0.5s 0.3s ease both; }
 
 
 /* ----------------------------------------------------------
-   15. MEDIA QUERIES
-   Tablet ≤ 900px  |  Phone ≤ 620px
+   MEDIA QUERIES
+   max-width: 900px — tablet
+   max-width: 620px — phone
+   These override base styles to simplify the layout on
+   smaller screens.
 ---------------------------------------------------------- */
 
-/* ── Tablet ── */
+/* ── Tablet (screen width 900px or less) ── */
 @media (max-width: 900px) {
+
   .nav-tag { display: none; }
 
+  /* Stack about badge above text */
   .about-grid {
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
   }
 
+  /* Stack contact columns */
   .contact-grid { grid-template-columns: 1fr; gap: var(--sp-lg); }
-
-  .skills-wrap > .section,
-  .contact-wrap > .section {
-    padding-left: var(--sp-lg);
-    padding-right: var(--sp-lg);
-  }
 
   .footer { flex-direction: column; text-align: center; }
   .footer-right { text-align: center; }
-
-  .hero-deco-1 { display: none; }
 }
 
-/* ── Phone ── */
+/* ── Phone (screen width 620px or less) ── */
 @media (max-width: 620px) {
-  :root { --sp-lg: 1.6rem; --sp-xl: 3.2rem; }
 
-  .navbar { padding: 0.75rem var(--sp-md); }
+  /* Tighten spacing */
+  :root {
+    --sp-lg: 1.6rem;
+    --sp-xl: 3.2rem;
+  }
 
-  /* Show hamburger, hide desktop links */
+  /* Show hamburger icon, hide nav links by default */
   .nav-hamburger { display: flex; }
   .nav-tag       { display: none; }
+  .navbar        { flex-wrap: wrap; }
 
+  /* Nav dropdown — hidden until checkbox is checked */
   .navbar .nav-links {
     position: absolute;
     top: 100%; left: 0; right: 0;
-    background: rgba(6,5,16,0.97);
+    background-color: #07060f;
     border-bottom: 1px solid var(--border);
     flex-direction: column;
     align-items: center;
     gap: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s ease;
-    padding: 0;
+    transition: max-height 0.35s ease;
   }
 
   .navbar .nav-links li { width: 100%; text-align: center; }
-  .navbar .nav-links a  {
+
+  .navbar .nav-links a {
     display: block;
     padding: 1rem;
     border-bottom: 1px solid var(--border);
     font-size: 0.95rem;
   }
 
+  /* Checkbox checked → show the dropdown */
   .nav-toggle-input:checked ~ .navbar .nav-links {
     max-height: 400px;
-    padding: var(--sp-xs) 0;
   }
 
-  .navbar { position: sticky; flex-wrap: wrap; }
-
+  /* Hide right-side corners on small screens */
   .corner-tr, .corner-br { display: none; }
   .corner-tl, .corner-bl { font-size: 0.58rem; padding: 2px 6px; }
 
-  .hero-cta   { flex-direction: column; align-items: center; }
-  .hero-deco-1, .hero-deco-2, .hero-deco-3 { display: none; }
+  /* Stack CTA buttons */
+  .hero-cta { flex-direction: column; align-items: center; }
 
+  /* Hide decorative diamonds on phone */
+  .hero-deco { display: none; }
+
+  /* Single column contact cards */
   .contact-cards { grid-template-columns: 1fr; }
-
-  .skills-wrap > .section,
-  .contact-wrap > .section {
-    padding-left: var(--sp-md);
-    padding-right: var(--sp-md);
-  }
 
   .edu-timeline { padding-left: 1.9rem; }
 }
